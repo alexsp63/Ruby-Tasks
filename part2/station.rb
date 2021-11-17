@@ -18,7 +18,7 @@ class Station
 
   # возвращать список поездов по типу
   def by_type(type_to_find)
-    @trains.each {|t| puts t.number if type_to_find.eql?(t.type)}
+    @trains.select {|t| type_to_find == t.type}
   end
 
 end

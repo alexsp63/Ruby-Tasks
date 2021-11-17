@@ -41,35 +41,45 @@ class Train
     @route = route
     # при назначении маршрута поезду, поезд автоматически помещается на первую станцию в маршруте
     @current_station_index = 0
-    @route.all_stations[@current_station_index].add_train(self)
+    self.current.add_train(self)
   end
 
   # может перемещаться вперед
   def move_forward
-    if @current_station_index < (@route.all_stations.size - 1) # то есть поезд не на конечной станции
-      @route.all_stations[@current_station_index].send(self)
+    if @current_station_index < (@route.stations.size - 1) # то есть поезд не на конечной станции
+      self.current.send(self)
       @current_station_index += 1
-      @route.all_stations[@current_station_index].add_train(self)
+      self.current.add_train(self)
     end
   end
 
   # может перемещаться назад
   def move_back
     if @current_station_index > 0 # то есть поезд не на начальной станции
-      @route.all_stations[@current_station_index].send(self)
+      self.current.send(self)
       @current_station_index -= 1
-      @route.all_stations[@current_station_index].add_train(self)
+      self.current.add_train(self)
     end
   end
 
-  # возвращать предыдущую станцию, текущую, следующую, на основе маршрута
-  def prev_curr_next
-    if @current_station_index > 0
-      puts "Предыдущая станция: #{@route.all_stations[@current_station_index-1].name}"
+  # предыдущая станция
+  def prev
+    if @current_station_index > 0 && @route
+      @route.stations[@current_station_index-1]
     end
-    puts "Текущая станция: #{@route.all_stations[@current_station_index].name}"
-    if @current_station_index < (@route.all_stations.size - 1)
-      puts "Следующая станция: #{@route.all_stations[@current_station_index+1].name}"
+  end
+
+  # текущая станция
+  def current
+    if @route
+      @route.stations[@current_station_index]
+    end
+  end
+
+  # следующая станция
+  def next 
+    if @current_station_index < (@route.stations.size - 1) && @route
+      @route.stations[@current_station_index+1]
     end
   end
 

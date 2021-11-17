@@ -7,25 +7,20 @@ class Route
     # а промежуточные могут добавляться между ними
     @start_station = start_station
     @end_station = end_station
-    @stations = []
+    @stations = [@start_station, @end_station]
   end
 
   def add_station(station)
     # может добавлять промежуточную станцию в список
-    @stations.push(station)
+    @stations[-1] = station
+    @stations.push(@end_station)
   end
 
   def delete_station(station)
     # может удалять промежуточную станцию из списка
-    @stations.delete(station)
-  end
-
-  def all_stations
-    # может выводить список всех станций по-порядку от начальной до конечной
-    @all_stations = []
-    @all_stations.push(@start_station)
-    @all_stations += @stations
-    @all_stations.push(@end_station)
+    if ![0, @stations.size-1].include?(@stations.index(station))  # если не начальная или конечная станция
+      @stations.delete(station)
+    end
   end
 
 end
