@@ -46,7 +46,7 @@ class Train
 
   # может перемещаться вперед
   def move_forward
-    if @current_station_index < (@route.stations.size - 1) # то есть поезд не на конечной станции
+    if self.next # то есть поезд не на конечной станции
       self.current.send(self)
       @current_station_index += 1
       self.current.add_train(self)
@@ -55,7 +55,7 @@ class Train
 
   # может перемещаться назад
   def move_back
-    if @current_station_index > 0 # то есть поезд не на начальной станции
+    if self.prev # то есть поезд не на начальной станции
       self.current.send(self)
       @current_station_index -= 1
       self.current.add_train(self)
