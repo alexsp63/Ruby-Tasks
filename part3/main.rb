@@ -1,31 +1,35 @@
 # frozen_string_literal: true
 
+require_relative 'station'
+require_relative 'route'
+require_relative 'train'
+require_relative 'van'
+require_relative 'cargo_train'
+require_relative 'cargo_van'
+require_relative 'passenger_train'
+require_relative 'passenger_van'
+
 class Main
   # много строчек из-за проверок пользовательского ввода
+
+  OPTIONS = {
+    '1' => 'create station',
+    '2' => 'create train',
+    '3' => 'create and edit route',
+    '4' => 'set the train route',
+    '5' => 'add a van to a train',
+    '6' => 'remove a van from a train',
+    '7' => 'move train',
+    '8' => 'view station list and trains at the station',
+    'exit' => 'stop'
+  }.freeze
+
+  TRAIN_TYPES = {
+    1 => 'passenger',
+    2 => 'cargo'
+  }.freeze
+
   def initialize
-    require_relative 'station'
-    require_relative 'route'
-    require_relative 'train'
-    require_relative 'van'
-    require_relative 'cargo_train'
-    require_relative 'cargo_van'
-    require_relative 'passenger_train'
-    require_relative 'passenger_van'
-    @options = {
-      '1' => 'create station',
-      '2' => 'create train',
-      '3' => 'create and edit route',
-      '4' => 'set the train route',
-      '5' => 'add a van to a train',
-      '6' => 'remove a van from a train',
-      '7' => 'move train',
-      '8' => 'view station list and trains at the station',
-      'exit' => 'stop'
-    }
-    @train_types = {
-      1 => 'passenger',
-      2 => 'cargo'
-    }
     @stations = [Station.new('1'), Station.new('2'), Station.new('3')]
     @trains = [CargoTrain.new('123'), PassengerTrain.new('456')]
     @routes = [Route.new(Station.new('1'), Station.new('234'))]
@@ -38,7 +42,7 @@ class Main
       puts '-> '
       inp = gets.chomp
       @program_end = true if inp == 'exit'
-      puts "\n#{@options[inp]}\n\n"
+      puts "\n#{OPTIONS[inp]}\n\n"
       case inp.to_i
       when 1
         create_station
@@ -62,7 +66,7 @@ class Main
 
   def show_options
     puts 'Choose an option'
-    @options.each { |key_value| puts "Type #{key_value[0]} to #{key_value[1]}" }
+    OPTIONS.each { |key_value| puts "Type #{key_value[0]} to #{key_value[1]}" }
   end
 
   def create_station
@@ -79,7 +83,7 @@ class Main
     puts 'Choose the type: '
     correct_inp = false
     until correct_inp
-      @train_types.each { |key_value| puts "Type #{key_value[0]} to choose #{key_value[1]}" }
+      TRAIN_TYPES.each { |key_value| puts "Type #{key_value[0]} to choose #{key_value[1]}" }
       puts '->'
       train_t = gets.chomp
       type = nil
