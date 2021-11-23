@@ -11,7 +11,7 @@ module InstanceCounter
     attr_writer :instances
 
     def instances
-      @instances ||= 0   # аналог NVL
+      @instances ||= 0   
     end
   end
 

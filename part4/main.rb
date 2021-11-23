@@ -64,6 +64,8 @@ class Main
     end
   end
 
+  private
+
   def show_options
     puts 'Choose an option'
     OPTIONS.each { |key_value| puts "Type #{key_value[0]} to #{key_value[1]}" }
