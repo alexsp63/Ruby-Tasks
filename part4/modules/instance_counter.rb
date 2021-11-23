@@ -1,12 +1,12 @@
-module InstanceCounter
+# frozen_string_literal: true
 
+module InstanceCounter
   def self.included(base)
-    base.extend ClassMethods  
+    base.extend ClassMethods
     base.send(:include, InstanceMethods)
   end
 
   module ClassMethods
-
     # чтобы инстансы подклассов считались отдкльно, не увеличивая счётчик инстансов родительского класса
     attr_writer :instances
 
@@ -14,17 +14,12 @@ module InstanceCounter
       @instances ||= 0   # аналог NVL
     end
   end
-  
+
   module InstanceMethods
-      
     protected
 
     def register_instance
       self.class.instances += 1
     end
-  
   end
-  
-  
-      
 end

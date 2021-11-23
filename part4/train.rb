@@ -1,18 +1,18 @@
 # frozen_string_literal: true
+
 require_relative 'modules/manufacturer'
 require_relative 'modules/instance_counter'
 
 class Train
-
   include Manufacturer
   include InstanceCounter
 
   attr_reader :number, :type, :vans, :speed, :route
 
-  @@all_trains = []  
+  @@all_trains = []
 
   def self.find(train_number)
-    @@all_trains.select { |t| train_number == t.number }[0]   # если нет поезда, вернётся nil
+    @@all_trains.select { |t| train_number == t.number }[0] # если нет поезда, вернётся nil
   end
 
   def initialize(number)
@@ -21,7 +21,10 @@ class Train
     @type = :other
     @vans = []
     @current_station_index = nil
-    @@all_trains.push(self) if @@all_trains.select { |t| number == t.number }.empty?   # номер поезда может рассматриваться как уникальный идентификатор, а один первичный ключ не должен быть у нескольких объектов
+    @@all_trains.push(self) if # номер поезда может рассматриваться как уникальный идентификатор, а один первичный ключ не должен быть у нескольких объектов
+@@all_trains.select do |t|
+  number == t.number
+end.empty?
     register_instance
   end
 

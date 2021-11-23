@@ -1,8 +1,8 @@
 # frozen_string_literal: true
+
 require_relative 'module/manufacturer'
 
 class Van
-
   include Manufacturer
 
   attr_reader :number, :type
