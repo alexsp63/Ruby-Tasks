@@ -98,7 +98,7 @@ class Train
   end
 
   def with_block(&block)
-    @vans.each &block
+    @vans.each(&block)
   end
 
   protected

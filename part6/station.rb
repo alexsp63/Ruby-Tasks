@@ -39,7 +39,7 @@ class Station
   end
 
   def with_block(&block)
-    @trains.each &block
+    @trains.each(&block)
   end
 
   protected

@@ -33,14 +33,14 @@ class Main
     @stations = [Station.new('s1'), Station.new('s2'), Station.new('s3'), Station.new('s11'), Station.new('st234')]
     @trains = [CargoTrain.new('D4F'), PassengerTrain.new('Y66-R4')]
     @routes = [Route.new(@stations[3], @stations[4]), Route.new(@stations[0], @stations[1])]
-    v1 = CargoVan.new("v-123", 1000)
+    v1 = CargoVan.new('v-123', 1000)
     v1.take_volume(20)
-    v2 = CargoVan.new("va-451", 5000)
-    [v1, v2].each { |v| @trains.first.add_van(v)}
-    v3 = PassengerVan.new("rx-465", 60)
+    v2 = CargoVan.new('va-451', 5000)
+    [v1, v2].each { |v| @trains.first.add_van(v) }
+    v3 = PassengerVan.new('rx-465', 60)
     v3.take_a_seat
-    v4 = PassengerVan.new("k-066")
-    [v3, v4].each { |v| @trains[1].add_van(v)}
+    v4 = PassengerVan.new('k-066')
+    [v3, v4].each { |v| @trains[1].add_van(v) }
     @trains.first.route = @routes[0]
     @trains[1].route = @routes[0]
     @vans = [v1, v2, v3, v4]
@@ -384,41 +384,49 @@ class Main
   end
 
   def show_stations_trains_vans
-    @stations.each do |station| 
+    @stations.each do |station|
       puts "Station: #{station.name}"
-      station.with_block do |train| 
+      station.with_block do |train|
         puts "Train number: #{train.number}, train type: #{train.type}, van quantity: #{train.vans.size}"
-        train.with_block { |van| puts "Van number (in train): #{van.number_in_train}, van type: #{van.type}, free seats quantity: #{van.free_seats_q}, taken seats quantity: #{van.taken_seats_q}" if van.type == :passenger}
-        train.with_block { |van| puts "Van number (in train): #{van.number_in_train}, van type: #{van.type}, free volume: #{van.free_volume}, taken volume: #{van.taken_volume}" if van.type == :cargo}
+        train.with_block do |van|
+          if van.type == :passenger
+            puts "Van number (in train): #{van.number_in_train}, van type: #{van.type}, free seats quantity: #{van.free_seats_q}, taken seats quantity: #{van.taken_seats_q}"
+          end
+        end
+        train.with_block do |van|
+          if van.type == :cargo
+            puts "Van number (in train): #{van.number_in_train}, van type: #{van.type}, free volume: #{van.free_volume}, taken volume: #{van.taken_volume}"
+          end
+        end
       end
       puts "\n"
     end
   end
 
   def take_seat_or_volume
-    puts "Choose the van (type index of van, in case of incorrect index, the first one will be chosen)"
-    @vans.each { |van| puts van.number}
-    puts "-> "
+    puts 'Choose the van (type index of van, in case of incorrect index, the first one will be chosen)'
+    @vans.each { |van| puts van.number }
+    puts '-> '
     index = gets.chomp
     selected_van = @vans[index.to_i]
-    selected_van = @vans[0] unless selected_van
+    selected_van ||= @vans[0]
     puts "Van #{selected_van.number} was chosen"
     if selected_van.type == :passenger
       selected_van.take_a_seat
-      puts "The seat was taken"
+      puts 'The seat was taken'
     else
       is_valid = false
       until is_valid
-        puts "Type volume to take"
+        puts 'Type volume to take'
         vol = gets.chomp
-        puts "-> "
+        puts '-> '
         begin
           is_valid = !selected_van.take_volume(vol.to_i).nil?
         rescue RuntimeError, ArgumentError
-          puts "Incorrect volume"
-        end  
+          puts 'Incorrect volume'
+        end
       end
-      puts "Volume was taken"
+      puts 'Volume was taken'
     end
   end
 end

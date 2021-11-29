@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'modules/validation'
 
 class CargoVan < Van
@@ -6,7 +7,7 @@ class CargoVan < Van
 
   attr_reader :volume, :free_volume
 
-  def initialize(number, volume=10000)
+  def initialize(number, volume = 10_000)
     @number = number
     @type = :cargo
     @volume = volume
