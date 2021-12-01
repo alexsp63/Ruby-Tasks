@@ -74,7 +74,7 @@ class Train
 
   def move_forward
     if self.next
-      current.send(self)
+      current.send_train(self)
       @current_station_index += 1
       current.add_train(self)
     end
@@ -82,7 +82,7 @@ class Train
 
   def move_back
     if prev
-      current.send(self)
+      current.send_train(self)
       @current_station_index -= 1
       current.add_train(self)
     end

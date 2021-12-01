@@ -37,7 +37,7 @@ class Station
     @trains.push(train)
   end
 
-  def send(train)
+  def send_train(train)
     @trains.delete(train)
   end
 
