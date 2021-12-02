@@ -25,19 +25,19 @@ module Validation
 
     protected
 
-    def validate_presence(*params) # на случай, если будет меняться количество параметров для валидации
+    def validate_presence(name, _) # на случай, если будет меняться количество параметров для валидации
       # требует, чтобы значение атрибута было не nil и не пустой строкой
-      raise "Attribute can't be nil or empty string!" if params.first.nil? || params.first.length == 0
+      raise "Attribute can't be nil or empty string!" if name.nil? || name.length == 0
     end
 
-    def validate_format(*params)
+    def validate_format(name, pattern)
       # требует соответствия значения атрибута заданному регулярному выражению
-      raise 'Invalid format!' if params.first !~ params[1]
+      raise 'Invalid format!' if name !~ pattern
     end
 
-    def validate_type(*params)
+    def validate_type(name, type)
       # требует соответствия значения атрибута заданному классу
-      raise 'Invalid type/class!' unless params.first.instance_of?(params[1])
+      raise 'Invalid type/class!' unless name.first.instance_of?(type)
     end
 
     def validate!
